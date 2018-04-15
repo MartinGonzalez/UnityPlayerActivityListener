@@ -1,5 +1,7 @@
 # UnityPlayerActivity Extension
 
+The solution to Android plugins collision.
+
 # Support this project for Unity to implement
 
 Vote here: [Unity Feedback Ticket](https://feedback.unity3d.com/suggestions/stop-extending-unityplayeractivity-on-android)
@@ -184,6 +186,130 @@ But since this is not a `standard` if you are using a plugin that extends from U
 
 # From Extending UnityPlayerActivity to Listen Activity events
 
-Let's create a real example how to transform `Firebase Messaging` plugin that has a `MessagingUnityPlayerActivity` extending from UnityPlayerActivity into a listener.
+Let's create a real example how to transform a plugin that is extending from UntiyPlayerActivity and add it into our project without changing anything.
 
-So we create an AndroidProject and install 
+Clone this repository.
+
+You will find a folder called `badexample`. Inside has a small plugin project that is extending from UnityPlayerActivity.
+
+```java
+package martingonzalez.com.badexample;
+
+import android.os.Bundle;
+import android.util.Log;
+
+import com.unity3d.player.UnityPlayerActivity;
+
+public class MyCustomUnityPlayerActivity extends UnityPlayerActivity {
+    private static final String MY_BAD_TAG = "BadTag";
+
+    @Override
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+
+        Log.d(MY_BAD_TAG, "I've override onCreate! Nice!");
+    }
+}
+```
+
+If we want to use this plugin we would need to change our AndroidManifest.xml in our project saying that the MAIN Activity will be `martingonzalez.com.badexample.MyCustomUnityPlayerActivity` but we don't want that! So...
+
+Using AndroidStudio i will open this project and do the following steps:
+
+- Go to badexample/build.gradle file and change
+
+this:
+
+```gradle
+dependencies {
+    implementation fileTree(include: ['*.jar'], excludes: ['UnityClasses-2017.4.1f1.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    compileOnly files('libs/UnityClasses-2017.4.1f1.jar')
+}
+```
+
+to:
+
+```gradle
+dependencies {
+    implementation fileTree(include: ['*.jar'], excludes: ['UnityClasses-2017.4.1f1.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    compileOnly project(path: ':unityplayeractivityextension')
+}
+```
+
+We are changing the dependency of which library we have to use. In this case we need to have a reference to `unityplayeractivityextension` project, but if Unity would provide us this feature we would only need to integrate Unity `classes.jar` in our plugin libs folder as a library.
+
+Then we need to take out the UnityPlayerActivity extension from our `MyCustomUnityPlayerActivity.java` and instead we are going to extend from 'AbstractUnityActivityListener'
+
+So our java class now would be like this:
+
+```java
+package martingonzalez.com.badexample;
+
+import android.os.Bundle;
+import android.util.Log;
+
+import martingonzalez.com.unityplayeractivityextension.AbstractUnityActivityListener;
+
+public class MyCustomUnityPlayerActivity extends AbstractUnityActivityListener {
+    private static final String MY_BAD_TAG = "BadTag";
+
+    @Override
+    public void onCreate(Bundle bundle) {
+        Log.d(MY_BAD_TAG, "I've override onCreate! Nice!");
+    }
+}
+```
+
+And one las step is to add the prefix `com.unity.activity.listener` into our plugin AndroidManifest.xml. 
+
+So go to `badexample/src/main/AndroidManifest.xml` and configure it like this:
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="martingonzalez.com.badexample">
+
+    <application>
+        <meta-data
+            android:name="com.unity.activity.listener.MyCustomPlugin"
+            android:value="martingonzalez.com.badexample.MyCustomUnityPlayerActivity" />
+    </application>
+
+</manifest>
+```
+
+That's all! 
+
+Now hit on Gradle at the right side of the editor, expand _:badexample -> Tasks -> Build -> Double click on build task_ and after build suceed you can find `.aar` file on `badexample/build/outputs/aar/com.me.myhelloworld-plugin.aar`
+
+Take that `.aar` file and import it into `UnityPlayerActivityListenersExample/Assets/Plugins/Android`. (Project was made with *Unity 2014.1f1*)
+
+Build the `.apk` and run it on a device or emulator and you will see this in the logcat
+
+```bash
+04-15 16:04:15.702 1622-3564/? I/ActivityManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.martingonzalez.unityplayeractivityextension/martingonzalez.com.unityplayeractivityextension.UnityPlayerActivityExtension} from uid 2000
+04-15 16:04:15.729 1622-2247/? I/ActivityManager: Start proc 23683:com.martingonzalez.unityplayeractivityextension/u0a91 for activity com.martingonzalez.unityplayeractivityextension/martingonzalez.com.unityplayeractivityextension.UnityPlayerActivityExtension
+04-15 16:04:15.813 23683-23683/? D/Unity: #### onCreate from UnityPlayerActivityExtension
+    #### Creating Activity Listeners
+04-15 16:04:15.815 23683-23683/? D/Unity: #### Activity Listener Found: 
+    ####                          
+    #### |_: martingonzalez.com.badexample.MyCustomUnityPlayerActivity
+    #### |_: com.unity.myhelloworldplugin.MyHelloWorldActivityListener
+    ##############################
+04-15 16:04:15.816 23683-23683/? D/Unity: #### onStart from UnityPlayerActivityExtension
+04-15 16:04:15.818 23683-23683/? D/Unity: #### onResume from UnityPlayerActivityExtension
+04-15 16:04:16.079 23683-23683/? D/Unity: #### onWindowFocusChanged from UnityPlayerActivityExtension
+```
+
+See how our UnityPlayerActivityExtension found `martingonzalez.com.badexample.MyCustomUnityPlayerActivity`
+
+And if we filter the log with out plugin tag that is "BadTag" we will see this:
+
+```bash
+04-15 16:04:15.815 23683-23683/? D/BadTag: I've override onCreate! Nice!
+```
+
+That's all!
+
+Remember to vote the [Unity Feedback Ticket](https://feedback.unity3d.com/suggestions/stop-extending-unityplayeractivity-on-android) so this can be part of Unity itself.
