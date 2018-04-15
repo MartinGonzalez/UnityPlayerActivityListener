@@ -1,1 +1,1 @@
-include ':unityplayeractivityextension', ':myhelloworldplugin'
+include ':unityplayeractivityextension', ':myhelloworldplugin', ':badexample'

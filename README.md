@@ -155,3 +155,35 @@ Imagine everybody following this rule, there will be no collision between plugin
 
 ## Usage
 
+Since Unity does not have this feature implemented we will need to override the UnityPlayerActivity, but this time for a good reason.
+
+You will find a `.aar` file in the [UnityExampleAndroidPlugin](https://github.com/MartinGonzalez/UnityPlayerActivityListener/tree/master/UnityPlayerActivityListenersExample/Assets/Plugins/Android) folder called `com.unity.extended.aar`, that will be our MainActivity now. Let's check the `AndroidManifest.xml` file also in that folder.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest 
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:tools="http://schemas.android.com/tools" package="${applicationId}" android:versionCode="1" android:versionName="1.0">
+    <application android:label="@string/app_name" android:icon="@drawable/app_icon">
+    <!-- We override here UnityPlayerActivity [For a good reason] -->
+        <activity android:name="martingonzalez.com.unityplayeractivityextension.UnityPlayerActivityExtension" android:label="@string/app_name" android:icon="@drawable/app_icon" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
+```
+
+I know, it's not cool the path `martingonzalez.com.unityplayeractivityextension.UnityPlayerActivityExtension` but imagine if Unity integrate this in it's own `UnityPlayerActivity`, we don't even have to create an AndroidManifest in `Plugins/Android`.
+
+Importing this into your projects you can manage several plugins that require listening to an activity.
+
+But since this is not a `standard` if you are using a plugin that extends from UnityPlayerActivity you will need to modify the plugin Activity. Yes, it's not right but thats why i rise a ticket asking for this feature.
+
+# From Extending UnityPlayerActivity to Listen Activity events
+
+Let's create a real example how to transform `Firebase Messaging` plugin that has a `MessagingUnityPlayerActivity` extending from UnityPlayerActivity into a listener.
+
+So we create an AndroidProject and install 
