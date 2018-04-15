@@ -4,7 +4,7 @@ The solution to Android plugins collision.
 
 # Support this project for Unity to implement
 
-Vote here: [Unity Feedback Ticket](https://feedback.unity3d.com/suggestions/stop-extending-unityplayeractivity-on-android)
+Vote here: [Unity Feedback Ticket](https://feedback.unity3d.com/suggestions/provide-unityplayeractivity-events-for-unity-android)
 
 Watch it here: [Unity Community Post](https://forum.unity.com/threads/no-more-extending-unityplayeractivity-feature-request-storytelling.526834/)
 
