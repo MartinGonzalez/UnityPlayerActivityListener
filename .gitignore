@@ -8,3 +8,7 @@
 /build
 /captures
 .externalNativeBuild
+
+UnityPlayerActivityListenersExample/Library/
+UnityPlayerActivityListenersExample/.idea/
+UnityPlayerActivityListenersExample/UnityActivityListenersDemo.sln

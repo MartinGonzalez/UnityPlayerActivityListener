@@ -1,0 +1,14 @@
+Library/
+Temp/
+obj/
+.vs/
+.vscode/
+.idea/
+
+**/.DS_Store
+*.sln
+*.csproj
+*.log
+*.tgz"
+*.mobileprovision
+*.DotSettings
