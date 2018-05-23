@@ -312,4 +312,4 @@ And if we filter the log with out plugin tag that is "BadTag" we will see this:
 
 That's all!
 
-Remember to vote the [Unity Feedback Ticket](https://feedback.unity3d.com/suggestions/stop-extending-unityplayeractivity-on-android) so this can be part of Unity itself.
+Remember to vote the [Unity Feedback Ticket](https://feedback.unity3d.com/suggestions/provide-unityplayeractivity-events-for-unity-android) so this can be part of Unity itself.
