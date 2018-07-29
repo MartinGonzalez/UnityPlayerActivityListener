@@ -6,10 +6,10 @@ import android.os.Bundle;
 
 import java.util.List;
 
-class UnityActivityMessageSender {
+class UnityActivityListenersNotifier {
     private List<AbstractUnityActivityListener> _activityListeners;
 
-    public UnityActivityMessageSender(List<AbstractUnityActivityListener> activityListeners) {
+    public UnityActivityListenersNotifier(List<AbstractUnityActivityListener> activityListeners) {
         _activityListeners = activityListeners;
     }
 

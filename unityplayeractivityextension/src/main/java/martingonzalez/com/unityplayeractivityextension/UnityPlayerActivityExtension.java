@@ -13,7 +13,7 @@ import java.util.List;
 public class UnityPlayerActivityExtension extends UnityPlayerActivity {
 
     public static final String UNITY_TAG = "Unity";
-    private UnityActivityMessageSender _unityActivityMessageSender;
+    private UnityActivityListenersNotifier _unityActivityListenersNotifier;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -22,119 +22,120 @@ public class UnityPlayerActivityExtension extends UnityPlayerActivity {
 
         logOverrideMethod("onCreate");
         UnityActivityListenersLoader listenersLoader = new UnityActivityListenersLoader();
-        List<AbstractUnityActivityListener> activityListeners = listenersLoader.getActivityListenersFrom(this);
-        _unityActivityMessageSender = new UnityActivityMessageSender(activityListeners);
-        _unityActivityMessageSender.onCreate(bundle);
+        List<AbstractUnityActivityListener> activityListeners
+                = listenersLoader.getActivityListenersFrom(this);
+        _unityActivityListenersNotifier = new UnityActivityListenersNotifier(activityListeners);
+        _unityActivityListenersNotifier.onCreate(bundle);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         logOverrideMethod("onStart");
-        _unityActivityMessageSender.onStart();
+        _unityActivityListenersNotifier.onStart();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         logOverrideMethod("onResume");
-        _unityActivityMessageSender.onResume();
+        _unityActivityListenersNotifier.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         logOverrideMethod("onPause");
-        _unityActivityMessageSender.onPause();
+        _unityActivityListenersNotifier.onPause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         logOverrideMethod("onDestroy");
-        _unityActivityMessageSender.onDestroy();
+        _unityActivityListenersNotifier.onDestroy();
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         logOverrideMethod("onNewIntent");
-        _unityActivityMessageSender.onNewIntent(intent);
+        _unityActivityListenersNotifier.onNewIntent(intent);
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
         logOverrideMethod("onLowMemory");
-        _unityActivityMessageSender.onLowMemory();
+        _unityActivityListenersNotifier.onLowMemory();
     }
 
     @Override
     public void onTrimMemory(int i) {
         super.onTrimMemory(i);
         logOverrideMethod("onTrimMemory");
-        _unityActivityMessageSender.onTrimMemory(i);
+        _unityActivityListenersNotifier.onTrimMemory(i);
     }
 
     @Override
     public void onWindowFocusChanged(boolean b) {
         super.onWindowFocusChanged(b);
         logOverrideMethod("onWindowFocusChanged");
-        _unityActivityMessageSender.onWindowFocusChanged(b);
+        _unityActivityListenersNotifier.onWindowFocusChanged(b);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         logOverrideMethod("onStop");
-        _unityActivityMessageSender.onStop();
+        _unityActivityListenersNotifier.onStop();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
         logOverrideMethod("onRestart");
-        _unityActivityMessageSender.onRestart();
+        _unityActivityListenersNotifier.onRestart();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         logOverrideMethod("onBackPressed");
-        _unityActivityMessageSender.onBackPressed();
+        _unityActivityListenersNotifier.onBackPressed();
     }
 
     @Override
     public void onConfigurationChanged(Configuration configuration) {
         super.onConfigurationChanged(configuration);
         logOverrideMethod("onConfigurationChanged");
-        _unityActivityMessageSender.onConfigurationChanged(configuration);
+        _unityActivityListenersNotifier.onConfigurationChanged(configuration);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         logOverrideMethod("onSaveInstanceState");
-        _unityActivityMessageSender.onSaveInstanceState(outState);
+        _unityActivityListenersNotifier.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         logOverrideMethod("onRestoreInstanceState");
-        _unityActivityMessageSender.onRestoreInstanceState(savedInstanceState);
+        _unityActivityListenersNotifier.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        _unityActivityMessageSender.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        _unityActivityListenersNotifier.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        _unityActivityMessageSender.onActivityResult(requestCode, resultCode, data);
+        _unityActivityListenersNotifier.onActivityResult(requestCode, resultCode, data);
     }
 
     private void logOverrideMethod(String methodName) {
