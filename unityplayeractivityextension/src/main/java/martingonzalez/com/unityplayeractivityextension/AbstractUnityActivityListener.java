@@ -51,10 +51,8 @@ public class AbstractUnityActivityListener {
     }
 
     public void onLowMemory() {
-
     }
 
     public void onWindowFocusChanged(boolean b) {
-
     }
 }
