@@ -155,11 +155,16 @@ Nice! Now we can create our `.aar` file and import it into Unity under 'Assets/P
 
 Imagine everybody following this rule, there will be no collision between plugins!
 
+
 ## Usage
 
 Since Unity does not have this feature implemented we will need to override the UnityPlayerActivity, but this time for a good reason.
 
-You will find a `.aar` file in the [UnityExampleAndroidPlugin](https://github.com/MartinGonzalez/UnityPlayerActivityListener/tree/master/UnityPlayerActivityListenersExample/Assets/Plugins/Android) folder called `com.unity.extended.aar`, that will be our MainActivity now. Let's check the `AndroidManifest.xml` file also in that folder.
+You can use the `unityActivityListener.package` to import the `.aar` file in your project or
+find a `.aar` file in the [UnityExampleAndroidPlugin](https://github.com/MartinGonzalez/UnityPlayerActivityListener/tree/master/UnityPlayerActivityListenersExample/Assets/Plugins/Android) folder called `com.unity.extended.aar`, that will be our MainActivity now,
+
+Let's check the `AndroidManifest.xml` file also in that folder.
+
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
