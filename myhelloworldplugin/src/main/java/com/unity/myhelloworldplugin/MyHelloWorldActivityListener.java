@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import martingonzalez.com.unityplayeractivityextension.AbstractUnityActivityListener;
+import martingonzalez.com.unityplayeractivityextension.UnityActivityListener;
 
-public class MyHelloWorldActivityListener extends AbstractUnityActivityListener {
+public class MyHelloWorldActivityListener extends UnityActivityListener {
     private static final String MY_PLUGIN_TAG = "MyPluginTag";
 
     @Override

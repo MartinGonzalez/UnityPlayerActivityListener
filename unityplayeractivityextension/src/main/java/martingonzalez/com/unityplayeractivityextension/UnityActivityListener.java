@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
-public class AbstractUnityActivityListener {
+public class UnityActivityListener {
     public void onCreate(Bundle savedInstanceState) {
     }
 

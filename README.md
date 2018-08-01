@@ -94,7 +94,7 @@ Time wasted...poor Ed.
 
 Imagine Unity provides us this project feature, to listen the Main Activity events. Let's create the same `MyHelloWorldPlugin` but now instead of extending UnityPlayerActivity i will do the following steps:
 
-Create what should be my "CustomUnityPlayerActivity" but instead i will create a "MyHelloWorldActivityListener" and will extend from an abstract class that "Unity provide us" called `AbstractUnityActivityListener` that will facilitate the methods of an activity. Lets see a code example
+Create what should be my "CustomUnityPlayerActivity" but instead i will create a "MyHelloWorldActivityListener" and will extend from a class that "Unity provide us" called `UnityActivityListener` that will facilitate the methods of an activity. Lets see a code example
 
 ```java
 package com.unity.myhelloworldplugin;
@@ -103,9 +103,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import martingonzalez.com.unityplayeractivityextension.AbstractUnityActivityListener;
+import martingonzalez.com.unityplayeractivityextension.UnityActivityListener;
 
-public class MyHelloWorldActivityListener extends AbstractUnityActivityListener {
+public class MyHelloWorldActivityListener extends UnityActivityListener {
     private static final String MY_PLUGIN_TAG = "MyPluginTag";
 
     @Override
@@ -240,7 +240,7 @@ dependencies {
 
 We are changing the dependency of which library we have to use. In this case we need to have a reference to `unityplayeractivityextension` project, but if Unity would provide us this feature we would only need to integrate Unity `classes.jar` in our plugin libs folder as a library.
 
-Then we need to take out the UnityPlayerActivity extension from our `MyCustomUnityPlayerActivity.java` and instead we are going to extend from 'AbstractUnityActivityListener'
+Then we need to take out the UnityPlayerActivity extension from our `MyCustomUnityPlayerActivity.java` and instead we are going to extend from 'UnityActivityListener'
 
 So our java class now would be like this:
 
@@ -250,9 +250,9 @@ package martingonzalez.com.badexample;
 import android.os.Bundle;
 import android.util.Log;
 
-import martingonzalez.com.unityplayeractivityextension.AbstractUnityActivityListener;
+import martingonzalez.com.unityplayeractivityextension.UnityActivityListener;
 
-public class MyCustomUnityPlayerActivity extends AbstractUnityActivityListener {
+public class MyCustomUnityPlayerActivity extends UnityActivityListener {
     private static final String MY_BAD_TAG = "BadTag";
 
     @Override
