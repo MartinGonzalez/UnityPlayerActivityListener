@@ -18,25 +18,25 @@ class UnityActivityListenersLoader {
 
     public List<UnityActivityListener> getActivityListenersFrom(Context context) {
         logDebug("\n#### Creating Activity Listeners");
-        List<UnityActivityListener> activityListeners = new ArrayList<>();
+        List<UnityActivityListener> listeners = new ArrayList<>();
         try {
             @SuppressLint("WrongConstant") ApplicationInfo applicationInfo = context
                     .getPackageManager()
                     .getApplicationInfo(context.getPackageName(), FLAG_UPDATED_SYSTEM_APP);
             Bundle bundle = applicationInfo.metaData;
-            List<String> activityListenerClassesNames = getActivityListenersClassName(bundle);
-            activityListeners = getListenerClassesFrom(activityListenerClassesNames);
+            List<String> listenersClassName = getListenersClassName(bundle);
+            listeners = getListenerClassesFrom(listenersClassName);
         } catch (PackageManager.NameNotFoundException e) {
             logError(e.getMessage());
         }
-        return activityListeners;
+        return listeners;
     }
 
-    private List<String> getActivityListenersClassName(Bundle bundle) {
+    private List<String> getListenersClassName(Bundle bundle) {
         List<String> classesNames = new ArrayList<>();
         for (String key : bundle.keySet()) {
             Object value = bundle.get(key);
-            if (isString(value) && isKeyAnActivityListener(key)) {
+            if (isString(value) && startsWithListenerPrefix(key)) {
                 classesNames.add((String) value);
             }
         }
@@ -47,7 +47,7 @@ class UnityActivityListenersLoader {
         return value instanceof String;
     }
 
-    private boolean isKeyAnActivityListener(String key) {
+    private boolean startsWithListenerPrefix(String key) {
         return key.startsWith(ACTIVITY_LISTENER_PREFIX);
     }
 
@@ -58,16 +58,15 @@ class UnityActivityListenersLoader {
         for (String className : listenerClassesName) {
             try {
                 Class listenerClass = Class.forName(className);
-                if (isAnActivityListenerClass(listenerClass)) {
-                    logDebug("\n#### |_: " + listenerClass.getName());
+                if (isListenerClass(listenerClass)) {
+                    logDebug("\n#### |: " + listenerClass.getName());
                     listenersClasses.add((UnityActivityListener) listenerClass.newInstance());
                 }
-            } catch (ClassNotFoundException e) {
-                logError(className + " was not found.");
-            } catch (IllegalAccessException e) {
-                logError(e.getMessage());
-            } catch (InstantiationException e) {
-                logError(e.getMessage());
+            } catch (Exception e) {
+                throw new RuntimeException(
+                        " \n ######## \n " +
+                                "# Error Cause: Class name [" + className + "] it is incorrectly configured. " +
+                                "# \n ########");
             }
         }
         logDebug("\n##############################");
@@ -82,7 +81,7 @@ class UnityActivityListenersLoader {
         Log.e(UnityPlayerActivityExtension.UNITY_TAG, message);
     }
 
-    private boolean isAnActivityListenerClass(Class listenerClass) {
+    private boolean isListenerClass(Class listenerClass) {
         return UnityActivityListener.class.isAssignableFrom(listenerClass);
     }
 }
